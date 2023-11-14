@@ -14,6 +14,9 @@ $ dotnet new console --framework net7.0 --use-program-main # create standard ske
 # add gitignore
 $ dotnet new gitignore
 
+# build application
+$ dotnet build
+
 # run application
 $ dotnet run
 ```
