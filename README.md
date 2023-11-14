@@ -1,11 +1,11 @@
 # Emne_3
 
-# dotnet runtime (CLI)
-* create new console project
+### dotnet runtime (CLI)
+* create new console project (example uses name HelloWorld)
 ```bash
-$ mkdir <project name> # create a directory which name is the project name
-$ cd <project name> # jump into the empty directory
-$ dotnet new dotnet new console --framework net7.0 # create skeleton/template for project
+$ mkdir HelloWorld # create a directory which project is HelloWorld
+$ cd HelloWorld # jump into the new directory
+$ dotnet new dotnet new console --framework net7.0 # create skeleton/template for the project
 $ dotnet new gitignore # create .gitignore file
 $ dotnet run
 ```
