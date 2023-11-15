@@ -30,24 +30,24 @@ namespace _1_intro_arrays
             Console.WriteLine("Printing out elements and their index position");
             for (int i = 0; i < some_array.Length; i++)
             {
-                var number = some_array[i];
-                Console.WriteLine($"Element in position {i} = {number}");
+                var element = some_array[i];
+                Console.WriteLine($"Element in position {i} = {element}");
             }
         }
 
         public static void PrintElementsInArray(int[] some_array)
         {
             Console.WriteLine("Printing out elements in one line");
-            int last_number = some_array[some_array.Length - 1];
-            foreach (var number in some_array)
+            int last_element = some_array[some_array.Length - 1];
+            foreach (var element in some_array)
             {
-                if (number == last_number)
+                if (element == last_element)
                 {
-                    Console.WriteLine($"{number} ");
+                    Console.WriteLine($"{element} ");
                 }
                 else
                 {
-                    Console.Write($"{number} ");
+                    Console.Write($"{element} ");
                 }
             }
         }
