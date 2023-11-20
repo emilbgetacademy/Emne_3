@@ -1,60 +1,67 @@
 ﻿namespace PasswordGenerator;
 class Program
 {
-    private static readonly string _allowed_letters = "lLsd";
-    private static readonly string _lower_case_alphabet = "abcdefghijklmopqrstuvwxyzæøå";
-    private static readonly string _upper_case_alphabet = "ABCDEFGHIJKLMOPQRSTUVWXYZÆØÅ";
-    private static readonly string _special_characters = "(!\"#\u00a4%&/(){}[]";
     private readonly static Random _random = new();
     private static string _generated_password = "";
+    private static readonly string _allowed_letters = "lLsd";
+    private static readonly string _lower_case_alphabet = "abcdefghijklmopqrstuvwxyz";
+    private static readonly string _upper_case_alphabet = "ABCDEFGHIJKLMOPQRSTUVWXYZ";
+    private static readonly string _special_characters = "(!\"#\u00a4%&/(){}[]";
 
     static void Main(string[] args)
     {
-        if (args.Length != 2) ShowInstructionsAndQuit();
+        if (args.Length != 2) AppErrExit();
 
-        int characters_remaining = GetFirstArgument(args[0]);
-        string password_options = GetSecondArgument(args[1]);
+        int pwd_length = ValidateFirstArgument(args[0]);
+        string pwd_options = ValidateSecondArgument(args[1]);
 
-        if (!NumberIsGreaterOrEqualToWordLength(characters_remaining, password_options))
+        ValidateLengthToOptions(pwd_length, pwd_options);
+
+        Console.WriteLine($"Length: {pwd_length}");
+        Console.WriteLine($"Options: {pwd_options}");
+
+        bool pwd_opt_satisfied = false;
+
+        while (!pwd_opt_satisfied)
         {
-            ShowInstructionsAndQuit();
+            pwd_opt_satisfied = GeneratePassword(pwd_length, pwd_options);
         }
 
-        Console.WriteLine($"password length: {characters_remaining}");
-        Console.WriteLine($"password_options: {password_options}");
-
-        char[] arr_password_options = password_options.ToCharArray();
-        bool[] arr_options_satisfied = new bool[password_options.Length];
-        int round = 1;
-        while (characters_remaining > 0)
-        {
-            int char_index = _random.Next(0, password_options.Length);
-            char char_option = password_options[char_index];
-
-            arr_password_options[char_index] = char_option;
-            arr_options_satisfied[char_index] = true;
-
-            _generated_password += GetCharacter(char_option);
-
-            Console.WriteLine($"round {round}: option {char_index} - {char_option}");
-
-            round ++;
-            characters_remaining--;
-        }
-
-       for (var i = 0; i < arr_password_options.Length; i++)
-       {
-            char c = arr_password_options[i];
-            string satisfied = arr_options_satisfied[i] ? "true" : "false";
-
-            Console.WriteLine($"index: {i}, c: {c}, satisfied: {satisfied}");
-       }
-        Console.WriteLine($"password: {_generated_password}");
+        Console.WriteLine($"\nGenerated password: {_generated_password}");
     }
 
-    private static char GetCharacter(char c)
+    private static bool GeneratePassword(int pwd_length, string pwd_options)
     {
-        return c switch
+        _generated_password = "";
+        bool[] arr_options_satisfied = new bool[pwd_options.Length];
+        int round = 1;
+
+        while (pwd_length > 0)
+        {
+            // pick a random option from the 2nd agrument
+            int char_index = _random.Next(0, pwd_options.Length);
+            char pwd_option = pwd_options[char_index];
+
+            // set the option as satisfied
+            arr_options_satisfied[char_index] = true;
+
+            _generated_password += GetCharacter(pwd_option);
+            round ++;
+            pwd_length--;
+        }
+
+        foreach (bool pwd_opt_satisfied in arr_options_satisfied)
+        {
+            if (!pwd_opt_satisfied) return false;
+        }
+
+        // reaching this far means we successfully generated a password
+        return true;
+    }
+
+    private static char GetCharacter(char pwd_option)
+    {
+        return pwd_option switch
         {
             'L' => GetRandomUpperCaseCharacter(),
             'l' => GetRandomLowerCaseCharacter(),
@@ -91,41 +98,46 @@ class Program
         return (char)('0' + random_number);
     }
 
-    private static int GetFirstArgument(string argument)
+    private static int ValidateFirstArgument(string argument)
     {
         foreach (char c in argument)
         {
-            if (!char.IsDigit(c)) ShowInstructionsAndQuit();
+            if (!char.IsDigit(c)) AppErrExit();
         }
         return Convert.ToInt32(argument);
     }
 
-    private static string GetSecondArgument(string word)
+    private static string ValidateSecondArgument(string argument)
     {
-        foreach (var c in word)
+        foreach (var c in argument)
         {
-            if (!_allowed_letters.Contains(c)) ShowInstructionsAndQuit();;
+            if (!_allowed_letters.Contains(c)) AppErrExit();;
         }
-        return word;
+        return argument;
     }
 
-    private static bool NumberIsGreaterOrEqualToWordLength(int length, string word)
+    private static void ValidateLengthToOptions(int length, string word)
     {
-        return length >= word.Length;
+        if (length < word.Length) AppErrExit();
     }
 
-    private static void ShowInstructionsAndQuit()
+    private static void AppErrExit()
     {
-        Console.WriteLine("FEIL: Argumenter\n");
-        Console.WriteLine("Første argument er lengden på passord:");
+        Console.WriteLine("ERROR: Arguments");
+        Console.WriteLine("\n1st argument sets password length:");
         Console.WriteLine("  <N>");
-        Console.WriteLine("Andre argument skal inneholde en eller flere bokstaver (må være kortere eller like mange som lengden):");
-        Console.WriteLine("  l = liten bokstav");
-        Console.WriteLine("  L = stor bokstav");
-        Console.WriteLine("  d = siffer");
-        Console.WriteLine("  s = spesialtegn \"!#¤%&/(){}[]");
-        Console.WriteLine("Eksempel:");
-        Console.WriteLine("  <command> 14 lLssdd");
+        Console.WriteLine("\n2nd argument sets password option(s) (options must not exceed the password length):");
+        Console.WriteLine("  l = lower case letter");
+        Console.WriteLine("  L = upper case letter");
+        Console.WriteLine("  d = digit");
+        Console.WriteLine("  s = special character");
+        Console.WriteLine("\nExample:");
+        Console.WriteLine("  <command> 8 lLssdd");
+        Console.WriteLine("\nThe example above will generate a password with 8 characters applying");
+        Console.WriteLine("  minimum 1 lower case letter [a-z]");
+        Console.WriteLine("  minimum 1 upper case letter [A-Z]");
+        Console.WriteLine("  minimum 2 special characters [\"!#¤%&/(){}[]]");
+        Console.WriteLine("  minimum 2 digits [0-9]");
         Environment.Exit(1);
     }
 }
