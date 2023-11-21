@@ -18,11 +18,8 @@ class SlideBoardActions
         int n = number;
         Console.WriteLine("MoveNumber() needs implementing like user input etc.");
 
-        for (int i = 0; i < Board.Numbers.Length - 1; i++)
-        {
-            if (Board.Numbers[i] > Board.Numbers[i + 1]) return false;
-        }
-        return true;
+        if (Board.IsSolved()) return true;
+        return false;
     }
 
     public void Display()

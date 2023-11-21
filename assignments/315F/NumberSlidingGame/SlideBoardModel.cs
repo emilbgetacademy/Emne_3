@@ -21,6 +21,8 @@ class SlideBoardModel
         }
     }
 
+
+
     public IEnumerable<int> Rows()
     {
         int row = 1;
@@ -55,6 +57,14 @@ class SlideBoardModel
         Numbers[index] = number;
     }
 
+    public bool IsSolved()
+    {
+        for (int i = 0; i < Numbers.Length - 1; i++)
+        {
+            if (Numbers[i] > Numbers[i + 1]) return false;
+        }
+        return true;
+    }
     // public bool SetNumber(int row, int col, int number)
     // {
     //   int row_index = index / _window_witdh;

@@ -6,9 +6,9 @@ class SlideBoardGame
         int col_count = 6;
 
         var board_model   = new SlideBoardModel(row_count, col_count);
-        var board_cations = new SlideBoardActions(board_model);
+        var board_actions = new SlideBoardActions(board_model);
 
-        board_cations.ShuffleNumbers();
+        board_actions.ShuffleNumbers();
 
         int tries = 3;
         int i = 0;
@@ -16,15 +16,13 @@ class SlideBoardGame
         while (!solved)
         {
             i++;
-            board_cations.Display();
+            board_actions.Display();
             if (i == tries)
             {
                 Console.WriteLine($"Exit on {tries} tries");
                 Environment.Exit(0);
             }
-            solved = board_cations.MoveNumber(4);
+            solved = board_actions.MoveNumber(4);
         }
     }
-
-
 }
