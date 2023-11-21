@@ -1,18 +1,18 @@
-# Emne_3
+# Emne 3 - GetAcademy
+* OOP developement with C#
 
-### Opening a dotnet project
-Make sure to navigate to the directory containing the Program.cs file.
-Open the corresponding directory in your editor of choice
-..the built-in dev-tools depend on it.
+### Setup for Cross Platform .NET Developement
+* Windows users have the option to use Visual Studio instead and can skip this whole section
+[Install .NET core](https://learn.microsoft.com/en-us/dotnet/core/install/)
+[Install VS-Code](https://code.visualstudio.com/download)
+[Setting up VS-Code for .NET](https://code.visualstudio.com/docs/languages/dotnet#_setting-up-vs-code-for-net-development)
 
-### Install .NET on your OS to get the dotnet command (runtime and sdk)
-[Click here](https://learn.microsoft.com/en-us/dotnet/core/install/)
 
-### .NET cli tool (dotnet)
+### .NET CLI Tool (dotnet)
 Using the dotnet command line utility to create, build and run a .NET application.
 
 #### Create new console project
-* This example uses the project name "HelloWorld"
+* This example uses the project name HelloWorld, but you can use any name you want
 ```bash
 # create a directory with name HelloWorld (will be the project name)
 mkdir HelloWorld
@@ -33,3 +33,8 @@ dotnet build
 # run the application (will automatically build first)
 dotnet run
 ```
+
+### Opening a dotnet project
+Make sure to navigate to the directory containing the Program.cs file.
+Open the corresponding directory in your editor of choice
+..the built-in dev-tools depend on it.
