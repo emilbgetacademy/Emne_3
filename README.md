@@ -10,6 +10,8 @@ Windows users have the option to use Visual Studio instead and can skip this who
 
 [Setting up VS-Code for .NET](https://code.visualstudio.com/docs/languages/dotnet#_setting-up-vs-code-for-net-development)
 
+[Official .NET Documentation](https://learn.microsoft.com/en-us/dotnet/)
+
 
 ## Guide .NET CLI Tool (dotnet)
 
