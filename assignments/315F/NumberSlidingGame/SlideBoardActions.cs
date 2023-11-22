@@ -1,6 +1,7 @@
 class SlideBoardActions
 {
     private readonly SlideBoardModel Board;
+
     public SlideBoardActions(SlideBoardModel board)
     {
         Board = board;
@@ -13,16 +14,43 @@ class SlideBoardActions
         Console.WriteLine("ShuffleNumbers() needs implementing");
     }
 
+    public int SelectNumber()
+    {
+        // blank tile (repr. the largest number) is returned if we get a non valid value from user
+        int blank_tile = Board.LargestNumber;
+
+        Console.Write("Select number to slide: ");
+        string user_input = Console.ReadLine() ?? "";
+
+        if (user_input == "") return blank_tile;
+
+        if (int.TryParse(user_input, out int number))
+        {
+            if (number < 1 || number >= blank_tile)
+            {
+                Console.WriteLine($"Choose a number between 1 and {Board.LargestNumber - 1}");
+                return blank_tile;
+            }
+            Console.WriteLine($"inserted: {number}");
+            return number;
+        }
+        else
+        {
+            Console.WriteLine($"'{user_input}' is not a number, please type a number from the board");
+            return blank_tile;
+        }
+    }
+
     public bool MoveNumber(int number)
     {
-        int n = number;
-        Console.WriteLine("MoveNumber() needs implementing like user input etc.");
+        // ignore moving when largest number (which is the blank tile) is selected
+        if (number == Board.LargestNumber) return false;
 
         if (Board.IsSolved()) return true;
         return false;
     }
 
-    public void Display()
+    public void PrintBoard()
     {
         // Console.Clear();
         Console.WriteLine("Board:");

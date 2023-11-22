@@ -10,19 +10,23 @@ class SlideBoardGame
 
         board_actions.ShuffleNumbers();
 
+        int selected_number;
         int tries = 3;
         int i = 0;
         bool solved = false;
         while (!solved)
         {
             i++;
-            board_actions.Display();
+
+            board_actions.PrintBoard();
+            selected_number = board_actions.SelectNumber();
+            solved = board_actions.MoveNumber(selected_number);
+
             if (i == tries)
             {
                 Console.WriteLine($"Exit on {tries} tries");
                 Environment.Exit(0);
             }
-            solved = board_actions.MoveNumber(4);
         }
     }
 }
