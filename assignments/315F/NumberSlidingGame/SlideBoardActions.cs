@@ -25,20 +25,23 @@ class SlideBoardActions
     public void Display()
     {
         // Console.Clear();
-        Console.WriteLine("Display() needs proper formating (for multi digit numbers)..");
         Console.WriteLine("Board:");
-
         foreach (int row in Board.Rows())
         {
+            string number_row = "|";
             foreach (int col in Board.Columns())
             {
+                string tile = "";
+
                 int number = Board.GetNumber(row, col);
-                // write the number
-                if (number < Board.LargestNumber) Console.Write($"{number} ");
-                // or if largest number, substitute an empty tile
-                else Console.Write($" ");
+                if (number < Board.LargestNumber) tile = number.ToString();
+
+                tile = tile.PadLeft(Board.LargestNumber.ToString().Length, ' ');
+                number_row += " " + tile + " | ";
             }
-            Console.Write("\n");
+            if (row == 1) Console.WriteLine("".PadLeft(number_row.Length-1, '-'));
+            Console.WriteLine(number_row);
+            Console.WriteLine("".PadLeft(number_row.Length-1, '-'));
         }
     }
 }
