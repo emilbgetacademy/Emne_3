@@ -9,57 +9,75 @@ class SlideBoardActions
 
     public void ShuffleNumbers()
     {
-        Board.Numbers[0] = 5;
-        Board.Numbers[4] = 1;
         Console.WriteLine("ShuffleNumbers() needs implementing");
     }
 
     public int SelectNumber()
     {
-        // blank tile (repr. the largest number) is returned if we get a non valid value from user
-        int blank_tile = Board.LargestNumber;
+        int selected_number = Board.LargestNumber;
 
-        Console.Write("Select number to slide: ");
-        string user_input = Console.ReadLine() ?? "";
-
-        if (user_input == "") return blank_tile;
-
-        if (int.TryParse(user_input, out int number))
+        while (selected_number == Board.LargestNumber)
         {
-            if (number < 1 || number >= blank_tile)
+            Console.Write("Select number to slide: ");
+            string user_input = Console.ReadLine() ?? "";
+
+            if (user_input == "")
             {
-                Console.WriteLine($"Choose a number between 1 and {Board.LargestNumber - 1}");
-                return blank_tile;
+                Console.WriteLine("No input");
             }
-            Console.WriteLine($"inserted: {number}");
-
-
-            return number;
+            else if (int.TryParse(user_input, out int number))
+            {
+                if (number > 0 && number < Board.LargestNumber)
+                {
+                    selected_number = number;
+                }
+                else {
+                    Console.WriteLine($"Must be a number between 1 and {Board.LargestNumber - 1}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"'{user_input}' is not a number, chose a number from the board");
+            }
         }
-        else
-        {
-            Console.WriteLine($"'{user_input}' is not a number, please type a number from the board");
-            return blank_tile;
-        }
+
+        return selected_number;
     }
 
     public bool MoveNumber(int number)
     {
-        // ignore moving when largest number (which is the blank tile) is selected
-        if (number == Board.LargestNumber) return false;
+        int blank_tile = Board.LargestNumber;
+        int row = Board.GetRow(blank_tile);
+        int col = Board.GetCollumn(blank_tile);
 
-        int row = Board.GetRow(number);
-        int col = Board.GetCollumn(number);
-        Console.WriteLine($"CellRow: {row}");
-        Console.WriteLine($"CellCollumn: {col}");
+        int[] movable_numbers = new int[4];
+        movable_numbers[0] = (row > 1) ? Board.GetNumber(row - 1, col) : blank_tile; 
+        movable_numbers[1] = (col > 1) ? Board.GetNumber(row, col - 1) : blank_tile; 
+        movable_numbers[2] = (row < Board.Height) ? Board.GetNumber(row + 1, col) : blank_tile; 
+        movable_numbers[3] = (col < Board.Width) ? Board.GetNumber(row, col + 1) : blank_tile; 
+
+        foreach (int movable_number in movable_numbers)
+        {
+            if (number == movable_number)
+            {
+                int selected_row = Board.GetRow(number);
+                int selected_col = Board.GetCollumn(number);
+
+                int blank_row = Board.GetRow(blank_tile);
+                int blank_col = Board.GetCollumn(blank_tile);
+
+                Board.SetNumber(selected_row, selected_col, blank_tile);
+                Board.SetNumber(blank_row, blank_col, number);
+            }
+        }
 
         if (Board.IsSolved()) return true;
-        return false;
+        else return false;
     }
 
     public void PrintBoard()
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("Board:");
         foreach (int row in Board.Rows())
         {

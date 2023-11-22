@@ -5,28 +5,21 @@ class SlideBoardGame
         int row_count = 5;
         int col_count = 6;
 
-        var board_model   = new SlideBoardModel(row_count, col_count);
-        var board_actions = new SlideBoardActions(board_model);
+        var board   = new SlideBoardModel(row_count, col_count);
+        var actions = new SlideBoardActions(board);
 
-        board_actions.ShuffleNumbers();
+        actions.ShuffleNumbers();
 
         int selected_number;
-        int tries = 3;
-        int i = 0;
         bool solved = false;
         while (!solved)
         {
-            i++;
-
-            board_actions.PrintBoard();
-            selected_number = board_actions.SelectNumber();
-            solved = board_actions.MoveNumber(selected_number);
-
-            if (i == tries)
-            {
-                Console.WriteLine($"Exit on {tries} tries");
-                Environment.Exit(0);
-            }
+            actions.PrintBoard();
+            // int[] movable_numbers = actions.GetMovableNumbers();
+            selected_number = actions.SelectNumber();
+            solved = actions.MoveNumber(selected_number);
         }
+        actions.PrintBoard();
+        Console.WriteLine($"Congratulations, you completed the board!");
     }
 }
