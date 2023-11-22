@@ -21,10 +21,9 @@ class SlideBoardModel
         }
     }
 
-
-
     public IEnumerable<int> Rows()
     {
+        // iterator for iterating over the boards rows
         int row = 1;
         while (row <= Height)
             yield return row++;
@@ -32,6 +31,7 @@ class SlideBoardModel
 
     public IEnumerable<int> Columns()
     {
+        // iterator for iterating over the boards collumns
         int col = 1;
         while (col <= Width)
             yield return col++;
@@ -57,6 +57,20 @@ class SlideBoardModel
         Numbers[index] = number;
     }
 
+    public int GetRow(int number)
+    {
+        int index = Array.IndexOf(Numbers, number);
+        int row = (index / Width) + 1;
+        return row;
+    }
+
+    public int GetCollumn(int number)
+    {
+        int index = Array.IndexOf(Numbers, number);
+        int col = (index % Width) + 1;
+        return col;
+    }
+
     public bool IsSolved()
     {
         for (int i = 0; i < Numbers.Length - 1; i++)
@@ -65,23 +79,4 @@ class SlideBoardModel
         }
         return true;
     }
-    // public bool SetNumber(int row, int col, int number)
-    // {
-    //   int row_index = index / _window_witdh;
-    //     int col_index = index % _window_witdh;
-    // }
-
-    // private static int OneDimArrayIndexToRowIndex(int index) {
-    //     int row_index = index / _window_witdh;
-    //     return row_index;
-    // }
-
-    // private static int OneDimArrayIndexToColumnIndex(int index) {
-    //     int col_index = index % _window_witdh;
-    //     return col_index;
-    // }
-    // private static int RowAndColumnToOneDimArrayIndex(int row_index, int col_index) {
-    //     int index = col_index + (row_index * _window_witdh);
-    //     return index;
-    // }
 }

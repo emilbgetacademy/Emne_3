@@ -32,6 +32,8 @@ class SlideBoardActions
                 return blank_tile;
             }
             Console.WriteLine($"inserted: {number}");
+
+
             return number;
         }
         else
@@ -45,6 +47,11 @@ class SlideBoardActions
     {
         // ignore moving when largest number (which is the blank tile) is selected
         if (number == Board.LargestNumber) return false;
+
+        int row = Board.GetRow(number);
+        int col = Board.GetCollumn(number);
+        Console.WriteLine($"CellRow: {row}");
+        Console.WriteLine($"CellCollumn: {col}");
 
         if (Board.IsSolved()) return true;
         return false;
