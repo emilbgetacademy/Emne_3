@@ -9,7 +9,17 @@ class SlideBoardActions
 
     public void ShuffleNumbers()
     {
-        Console.WriteLine("ShuffleNumbers() needs implementing");
+        Random random = new();
+        int shuffle_count = 1000;
+        while (shuffle_count > 0)
+        {
+            int number = random.Next(1, Board.LargestNumber);
+            if (Board.NumberCanMove(number))
+            {
+                MoveNumber(number);
+                shuffle_count--;
+            }
+        }
     }
 
     public int SelectNumber()

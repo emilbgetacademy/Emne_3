@@ -15,7 +15,6 @@ class SlideBoardGame
         while (!solved)
         {
             actions.PrintBoard();
-            // int[] movable_numbers = actions.GetMovableNumbers();
             selected_number = actions.SelectNumber();
             solved = actions.MoveNumber(selected_number);
         }
