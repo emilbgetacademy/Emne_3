@@ -7,18 +7,33 @@ class SlideBoardActions
         Board = board;
     }
 
-    public void ShuffleNumbers()
+    public void ShuffleNumbers(int slides)
     {
         Random random = new();
-        int shuffle_count = 1000;
-        while (shuffle_count > 0)
+
+        int number = random.Next(1, Board.GetLargestNumber());
+
+        // enforce more entropy by disallowing sliding of the previous number
+        int previous_number = number + 1;
+
+        while (slides > 0)
         {
-            int number = random.Next(1, Board.LargestNumber);
-            if (Board.NumberCanMove(number))
+            if (number != previous_number && Board.NumberCanMove(number))
             {
-                MoveNumber(number);
-                shuffle_count--;
+                SlideNumber(number);
+                previous_number = number;
+
+                if (!Board.IsSolved())
+                {
+                    // only subtract if the board is not solved
+                    // ..it avoids starting out with a solved board (not a likely scenario though)
+                    // however, it would be guaranteed to happen if you for example
+                    // ..select only 2 rows and 2 collumns and then select 12 shuffles
+                    slides--;
+                }
             }
+
+            number = random.Next(1, Board.GetLargestNumber());
         }
     }
 
@@ -31,13 +46,13 @@ class SlideBoardActions
             {
                 if (Board.NumberCanMove(number)) return number;
             }
-            Console.WriteLine("Number must valid and adjacent to the blank tile");
+            Console.WriteLine("Type in a number adjacent to the blank tile");
         }
     }
 
-    public bool MoveNumber(int selected_number)
+    public bool SlideNumber(int selected_number)
     {
-        int blank_tile = Board.LargestNumber;
+        int blank_tile = Board.GetLargestNumber();
 
         int selected_row = Board.GetRow(selected_number);
         int selected_col = Board.GetCollumn(selected_number);
@@ -64,9 +79,9 @@ class SlideBoardActions
                 string tile = "";
 
                 int number = Board.GetNumber(row, col);
-                if (number < Board.LargestNumber) tile = number.ToString();
+                if (number < Board.GetLargestNumber()) tile = number.ToString();
 
-                tile = tile.PadLeft(Board.LargestNumber.ToString().Length, ' ');
+                tile = tile.PadLeft(Board.GetLargestNumber().ToString().Length, ' ');
                 number_row += " " + tile + " | ";
             }
             if (row == 1) Console.WriteLine("".PadLeft(number_row.Length-1, '-'));

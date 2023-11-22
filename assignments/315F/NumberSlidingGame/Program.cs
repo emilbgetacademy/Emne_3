@@ -1,1 +1,1 @@
-﻿SlideBoardGame.Start();
+﻿SlideBoardGame.Run();

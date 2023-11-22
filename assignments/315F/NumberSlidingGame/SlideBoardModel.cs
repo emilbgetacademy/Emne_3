@@ -1,21 +1,17 @@
 class SlideBoardModel
 {
-    // properties
-    public readonly int Width;
-    public readonly int Height;
-    public readonly int Size;
-    public readonly int LargestNumber;
-    public readonly int[] Numbers;
+    private readonly int Height; // this is the row count
+    private readonly int Width; // this is the collumn count
+    private readonly int LargestNumber; // this is the number behind the blank tile
+    private readonly int[] Numbers; // this is all the numbers inside the slide-board
 
-    // constructor
-    public SlideBoardModel(int width, int height)
+    public SlideBoardModel(int rows, int collumns)
     {
-        Width = width;
-        Height = height;
-        Size = width * height;
-        LargestNumber = Size;
-        Numbers = new int[Size];
-        for (int i = 0; i < Size; i++)
+        Height = rows;
+        Width = collumns;
+        LargestNumber = rows * collumns;
+        Numbers = new int[LargestNumber];
+        for (int i = 0; i < LargestNumber; i++)
         {
             Numbers[i] = i + 1;
         }
@@ -59,6 +55,11 @@ class SlideBoardModel
         return false;
     }
 
+    public int GetLargestNumber()
+    {
+        return LargestNumber;
+    }
+
     public int GetNumber(int row, int col)
     {
         // user of this interface expects rows and columns to start from 1, we adjust for that
@@ -95,9 +96,9 @@ class SlideBoardModel
 
     public bool IsSolved()
     {
-        for (int i = 0; i < Numbers.Length - 1; i++)
+        for (int i = 1; i < LargestNumber; i++)
         {
-            if (Numbers[i] > Numbers[i + 1]) return false;
+            if (Numbers[i - 1] > Numbers[i]) return false;
         }
         return true;
     }
