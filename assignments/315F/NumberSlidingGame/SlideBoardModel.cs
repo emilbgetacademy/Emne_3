@@ -37,6 +37,28 @@ class SlideBoardModel
             yield return col++;
     }
 
+    public IEnumerable<int> MovableNumbers()
+    {
+        // iterator for iterating over numbers that can slide to the blank tile
+        int blank_tile = LargestNumber;
+        int row = GetRow(blank_tile);
+        int col = GetCollumn(blank_tile);
+
+        if (row > 1) yield return GetNumber(row - 1, col); // number above
+        if (col > 1) yield return GetNumber(row, col - 1); // number to the right
+        if (row < Height) yield return GetNumber(row + 1, col); // number below
+        if (col < Width)  yield return GetNumber(row, col + 1); // number to the left
+    }
+
+    public bool NumberCanMove(int number)
+    {
+        foreach (int movable_number in MovableNumbers())
+        {
+            if (number == movable_number) return true;
+        }
+        return false;
+    }
+
     public int GetNumber(int row, int col)
     {
         // user of this interface expects rows and columns to start from 1, we adjust for that

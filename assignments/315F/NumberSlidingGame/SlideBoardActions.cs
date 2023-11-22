@@ -14,62 +14,29 @@ class SlideBoardActions
 
     public int SelectNumber()
     {
-        int selected_number = Board.LargestNumber;
-
-        while (selected_number == Board.LargestNumber)
+        Console.Write("Number to slide: ");
+        while (true)
         {
-            Console.Write("Select number to slide: ");
-            string user_input = Console.ReadLine() ?? "";
-
-            if (user_input == "")
+            if (int.TryParse(Console.ReadLine() ?? "", out int number))
             {
-                Console.WriteLine("No input");
+                if (Board.NumberCanMove(number)) return number;
             }
-            else if (int.TryParse(user_input, out int number))
-            {
-                if (number > 0 && number < Board.LargestNumber)
-                {
-                    selected_number = number;
-                }
-                else {
-                    Console.WriteLine($"Must be a number between 1 and {Board.LargestNumber - 1}");
-                }
-            }
-            else
-            {
-                Console.WriteLine($"'{user_input}' is not a number, chose a number from the board");
-            }
+            Console.WriteLine("Number must valid and adjacent to the blank tile");
         }
-
-        return selected_number;
     }
 
-    public bool MoveNumber(int number)
+    public bool MoveNumber(int selected_number)
     {
         int blank_tile = Board.LargestNumber;
-        int row = Board.GetRow(blank_tile);
-        int col = Board.GetCollumn(blank_tile);
 
-        int[] movable_numbers = new int[4];
-        movable_numbers[0] = (row > 1) ? Board.GetNumber(row - 1, col) : blank_tile; 
-        movable_numbers[1] = (col > 1) ? Board.GetNumber(row, col - 1) : blank_tile; 
-        movable_numbers[2] = (row < Board.Height) ? Board.GetNumber(row + 1, col) : blank_tile; 
-        movable_numbers[3] = (col < Board.Width) ? Board.GetNumber(row, col + 1) : blank_tile; 
+        int selected_row = Board.GetRow(selected_number);
+        int selected_col = Board.GetCollumn(selected_number);
 
-        foreach (int movable_number in movable_numbers)
-        {
-            if (number == movable_number)
-            {
-                int selected_row = Board.GetRow(number);
-                int selected_col = Board.GetCollumn(number);
+        int blank_row = Board.GetRow(blank_tile);
+        int blank_col = Board.GetCollumn(blank_tile);
 
-                int blank_row = Board.GetRow(blank_tile);
-                int blank_col = Board.GetCollumn(blank_tile);
-
-                Board.SetNumber(selected_row, selected_col, blank_tile);
-                Board.SetNumber(blank_row, blank_col, number);
-            }
-        }
+        Board.SetNumber(selected_row, selected_col, blank_tile);
+        Board.SetNumber(blank_row, blank_col, selected_number);
 
         if (Board.IsSolved()) return true;
         else return false;
