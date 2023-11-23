@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Text;
 
 class WordLists
 {
@@ -24,24 +25,31 @@ class WordLists
                 // get the specified wordlist (text file)
                 ZipArchiveEntry? entry = archive.GetEntry(filename);
 
-                if (entry != null)
-                {
-                    // read contents of text file
-                    using (Stream stream = entry.Open())
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        // add each line to list
-                        while (!reader.EndOfStream)
-                        {
-                            string? line = reader.ReadLine();
-                            if (line != null) wordlist.Add(line);
-                        }
-                    }
-                }
-                else
+                if (entry == null)
                 {
                     Console.WriteLine($"File '{filename}' not found in the zip archive.");
                     Environment.Exit(1);
+                }
+
+                // read contents of text file
+                using (Stream stream = entry.Open())
+                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    // add words to list
+                    string word = "";
+                    string last_word = "";
+
+                    while (!reader.EndOfStream)
+                    {
+                        string? line = reader.ReadLine();
+                        if (line == null) continue;
+
+                        word = line.Split('\t')[1];
+                        if (word == last_word) continue;
+
+                        wordlist.Add(word);
+                        last_word = word;
+                    }
                 }
             }
         }
@@ -53,7 +61,7 @@ class WordLists
 
         if (!wordlist.Any())
         {
-            Console.WriteLine("Something unextepcted happened when loading the wordlist");
+            Console.WriteLine("Something unextepcted happened when loading the wordlist (possible empty list)");
             Environment.Exit(1);
         }
 
