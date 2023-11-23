@@ -2,7 +2,7 @@
 * OOP developement with C#
 
 ## Setup for Cross Platform .NET Developement
-Windows users have the option to use Visual Studio instead and can skip this whole section
+* Note: If on Windows you have the option to use Visual Studio instead
 
 [Install .NET core](https://learn.microsoft.com/en-us/dotnet/core/install/)
 
