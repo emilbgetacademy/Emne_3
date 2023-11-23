@@ -1,8 +1,8 @@
 class WordListActions
 {
-    private readonly string _wordlist;
+    private readonly List<string> _wordlist;
 
-    public WordListActions(string wordlist)
+    public WordListActions(List<string> wordlist)
     {
         _wordlist = wordlist;
     }
@@ -10,6 +10,6 @@ class WordListActions
     public void PrintAllLines()
     {
         // print all content to console
-        Console.WriteLine(_wordlist);
+        foreach (string line in _wordlist) Console.WriteLine(line);
     }
 }

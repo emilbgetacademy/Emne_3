@@ -2,12 +2,12 @@ using System.IO.Compression;
 
 class WordLists
 {
-    private static readonly string WordListZipFile = "wordlists.zip"; 
+    private static readonly string WordListZipFile = "wordlists.zip";
 
-    public static string Get(string language)
+    public static List<string> Get(string language)
     {
         string filename = language.ToLower() + ".txt";
-        string wordlist = "";
+        List<string> wordlist = new List<string>();
 
         try
         {
@@ -18,19 +18,24 @@ class WordLists
                 Environment.Exit(1);
             }
 
-            // extract zip file
+            // extract the zip file
             using (ZipArchive archive = ZipFile.OpenRead(WordListZipFile))
             {
-                // get the specified wordlist inside
+                // get the specified wordlist (text file)
                 ZipArchiveEntry? entry = archive.GetEntry(filename);
 
                 if (entry != null)
                 {
-                    // open the content
+                    // read contents of text file
                     using (Stream stream = entry.Open())
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        wordlist = reader.ReadToEnd();
+                        // add each line to list
+                        while (!reader.EndOfStream)
+                        {
+                            string? line = reader.ReadLine();
+                            if (line != null) wordlist.Add(line);
+                        }
                     }
                 }
                 else
@@ -46,7 +51,7 @@ class WordLists
             Environment.Exit(1);
         }
 
-        if (wordlist == "")
+        if (!wordlist.Any())
         {
             Console.WriteLine("Something unextepcted happened when loading the wordlist");
             Environment.Exit(1);
