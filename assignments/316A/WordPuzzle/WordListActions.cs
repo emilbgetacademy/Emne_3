@@ -2,9 +2,9 @@ class WordListActions
 {
     private readonly string _wordlist;
 
-    public WordListActions(string word_list)
+    public WordListActions(string wordlist)
     {
-        _wordlist = word_list;
+        _wordlist = wordlist;
     }
 
     public void PrintAllLines()

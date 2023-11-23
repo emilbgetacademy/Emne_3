@@ -6,8 +6,8 @@ class WordLists
 
     public static string Get(string language)
     {
-        string wordlist_file = language.ToLower() + ".txt";
-        string wordlist_content = "";
+        string filename = language.ToLower() + ".txt";
+        string wordlist = "";
 
         try
         {
@@ -22,20 +22,20 @@ class WordLists
             using (ZipArchive archive = ZipFile.OpenRead(WordListZipFile))
             {
                 // get the specified wordlist inside
-                ZipArchiveEntry? wordlist_content_file = archive.GetEntry(wordlist_file);
+                ZipArchiveEntry? entry = archive.GetEntry(filename);
 
-                if (wordlist_content_file != null)
+                if (entry != null)
                 {
                     // open the content
-                    using (Stream stream = wordlist_content_file.Open())
+                    using (Stream stream = entry.Open())
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        wordlist_content = reader.ReadToEnd();
+                        wordlist = reader.ReadToEnd();
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"File '{wordlist_file}' not found in the zip archive.");
+                    Console.WriteLine($"File '{filename}' not found in the zip archive.");
                     Environment.Exit(1);
                 }
             }
@@ -46,12 +46,12 @@ class WordLists
             Environment.Exit(1);
         }
 
-        if (wordlist_content == "")
+        if (wordlist == "")
         {
             Console.WriteLine("Something unextepcted happened when loading the wordlist");
             Environment.Exit(1);
         }
 
-        return wordlist_content;
+        return wordlist;
     }
 }
