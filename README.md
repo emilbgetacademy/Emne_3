@@ -42,3 +42,19 @@ dotnet run
 Make sure to navigate to the directory containing the Program.cs file.
 Open the corresponding directory in your editor of choice
 ..the built-in dev-tools depend on it.
+
+
+## .NET Programming Conventions
+```yaml
+class property private field:
+    _name
+class property public field:
+    Name
+
+Variable declaration when type can be implied on same line:
+    var aString = "hello";
+    var aNumber = 10;
+Variable declaration when type can not be implied on same line:
+    var aString = ReturnsSomething();
+    int aNumber = ReturnsSomething();
+```
