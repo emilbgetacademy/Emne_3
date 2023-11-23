@@ -7,7 +7,7 @@ class Program
         string language = "Norwegian";
 
         // wordlists are compressed (compression ratio for text is great) and we get them from here ..we like to save space :)
-        List<string> wordlist = WordLists.Get(language);
+        string[] wordlist = WordLists.Get(language);
 
         // lets start..
         var wordlist_actions = new WordListActions(wordlist);

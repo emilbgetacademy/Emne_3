@@ -1,8 +1,8 @@
 class WordListActions
 {
-    private readonly List<string> _wordlist;
+    private readonly string[] _wordlist;
 
-    public WordListActions(List<string> wordlist)
+    public WordListActions(string[] wordlist)
     {
         _wordlist = wordlist;
     }

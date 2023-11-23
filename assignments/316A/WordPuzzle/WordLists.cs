@@ -4,10 +4,10 @@ class WordLists
 {
     private static readonly string WordListZipFile = "wordlists.zip";
 
-    public static List<string> Get(string language)
+    public static string[] Get(string language)
     {
         string filename = language.ToLower() + ".txt";
-        List<string> wordlist = new List<string>();
+        var wordlist = new List<string>();
 
         try
         {
@@ -57,6 +57,6 @@ class WordLists
             Environment.Exit(1);
         }
 
-        return wordlist;
+        return wordlist.ToArray();
     }
 }
