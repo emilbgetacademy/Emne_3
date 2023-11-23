@@ -7,7 +7,7 @@ class WordLists
 
     public static string[] Get(string language)
     {
-        string filename = language.ToLower() + ".txt";
+        var filename = language.ToLower() + ".txt";
         var wordlist = new List<string>();
 
         try
@@ -45,7 +45,11 @@ class WordLists
                         if (line == null) continue;
 
                         word = line.Split('\t')[1];
-                        if (word == last_word) continue;
+
+                        if (word == last_word)  continue;
+                        if (word.Length < 7)    continue;
+                        if (word.Length > 10)   continue;
+                        if (word.Contains('-')) continue;
 
                         wordlist.Add(word);
                         last_word = word;
