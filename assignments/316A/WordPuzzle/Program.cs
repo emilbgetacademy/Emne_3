@@ -1,18 +1,18 @@
-﻿
+﻿namespace WordPuzzle;
 class Program
 {
+    public static string _language = "Norwegian";
+    public static readonly Random _rnd = new();
     static void Main()
     {
-        // country ..only norwegian exists though, but we like to structure our apps nicely :)
-        string language = "Norwegian";
+        var wordlist = new WordList(_language);
 
-        // wordlists are compressed (compression ratio for text is great) and we get them from here ..we like to save space :)
-        string[] wordlist = WordLists.Get(language);
+        foreach (string w in wordlist.AllWords()) Console.WriteLine(w);
 
-        // lets start..
-        var wordlist_actions = new WordListActions(wordlist);
+        string random_word = wordlist.GetWordByIndex( _rnd.Next(0, wordlist.WordCount()) );
+        Console.WriteLine($"Random word: {random_word}");
 
-        // ..print everyting in console so we know wether everything works or not :)
-        wordlist_actions.PrintAllLines();
+        bool overlap = WordCheck.OverlapBy3("ww", "sd");
+        if (overlap) Console.WriteLine("Words overlap!");
     }
 }

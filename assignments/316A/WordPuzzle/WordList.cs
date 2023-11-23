@@ -1,11 +1,14 @@
 using System.IO.Compression;
 using System.Text;
 
-class WordLists
+namespace WordPuzzle;
+class WordList
 {
     private static readonly string WordListZipFile = "wordlists.zip";
 
-    public static string[] Get(string language)
+    private readonly string[] _wordlist;
+
+    public WordList(string language)
     {
         var filename = language.ToLower() + ".txt";
         var wordlist = new List<string>();
@@ -45,7 +48,6 @@ class WordLists
                         if (line == null) continue;
 
                         word = line.Split('\t')[1];
-
                         if (word == last_word)  continue;
                         if (word.Length < 7)    continue;
                         if (word.Length > 10)   continue;
@@ -69,6 +71,20 @@ class WordLists
             Environment.Exit(1);
         }
 
-        return wordlist.ToArray();
+        _wordlist = wordlist.ToArray();
+    }
+
+    public int WordCount()
+    {
+        return _wordlist.Length;
+    }
+    public string GetWordByIndex(int index)
+    {
+        return _wordlist[index];
+    }
+
+    public IEnumerable<string> AllWords()
+    {
+        foreach (string word in _wordlist) yield return word;
     }
 }
