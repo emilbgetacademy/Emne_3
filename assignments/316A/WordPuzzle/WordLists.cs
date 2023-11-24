@@ -5,7 +5,6 @@ namespace WordPuzzle;
 class WordLists
 {
     private static readonly string WordListZipFile = "wordlists.zip";
-
     private readonly string[] _wordlist;
 
     public WordLists(string language)
@@ -49,8 +48,6 @@ class WordLists
 
                         word = line.Split('\t')[1];
                         if (word == last_word)  continue;
-                        if (word.Length < 7)    continue;
-                        if (word.Length > 10)   continue;
                         if (word.Contains('-')) continue;
                         if (word.Contains(' ')) continue;
 
@@ -90,7 +87,7 @@ class WordLists
         foreach (string word in _wordlist) yield return word;
     }
 
-    public bool WordInlist(string word)
+    public bool WordExists(string word)
     {
         return _wordlist.Contains(word);
     }

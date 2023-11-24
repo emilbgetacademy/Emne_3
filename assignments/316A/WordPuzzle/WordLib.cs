@@ -21,6 +21,7 @@ class WordLib
         int i = 0;
         while (i < length)
         {
+            if (index_shift_right < 0) return false;
             if (last_word[i] != first_word[index_shift_right + i]) return false;
             i++;
         }
@@ -64,7 +65,6 @@ class WordLib
 
     public static string ExtractLongestOverlappingPart(string first_word, string last_word)
     {
-
         int shortest_word_length = last_word.Length;
         if (first_word.Length < last_word.Length) shortest_word_length = first_word.Length;
 

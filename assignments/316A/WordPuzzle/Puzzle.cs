@@ -1,54 +1,80 @@
 ﻿namespace WordPuzzle;
 class Puzzle
 {
-    public static readonly Random Rnd = new();
-    private WordLists _wordlist;
+    private static readonly int _min_word_length = 7;
+    private static readonly int _max_word_length = 10;
+    private int _word_puzzle_count = 200;
+    private readonly int _max_overlap = 5;
+    private readonly int _min_overlap = 3;
+    private readonly bool _overlap_must_be_a_word = true;
+    private readonly Random _rnd = new();
+    private readonly WordLists _wordlist;
+    private readonly string[] _word_puzzles;
 
-    public Puzzle(WordLists wordlist)
+    public Puzzle(WordLists wordlist,
+                  int max_overlap_length,
+                  int min_overlap_length,
+                  int word_puzzle_count,
+                  bool overlap_must_be_a_word)
     {
+        _word_puzzles = new string[_word_puzzle_count];
+
+        _max_overlap = max_overlap_length;
+        _min_overlap = min_overlap_length;
+        _word_puzzle_count = word_puzzle_count;
+        _overlap_must_be_a_word = overlap_must_be_a_word;
+
         _wordlist = wordlist;
     }
-    
-    public void Run(int _word_puzzle_count, int _max_overlap, int _min_overlap)
+
+    private string? GetNext(string current_word)
     {
-        List<string> overlapping_parts = new();
+        foreach (string new_word in _wordlist.AllWords())
+        {
+            if (new_word.Length < _min_word_length) continue;
+            if (new_word.Length > _max_word_length) continue;
 
-        string string_to_print = String.Empty; // temporary for printing results
+            int len = WordLib.CountShortestOverlap(_min_overlap, _max_overlap, current_word, new_word);
 
+            if (len >= _min_overlap)
+            {
+                string part_that_overlaps = WordLib.ExtractShortestOverlappingPart(_min_overlap, current_word, new_word);
+
+                string result = $"{current_word} - {new_word} -> {part_that_overlaps} ({len})";
+
+                if(_overlap_must_be_a_word)
+                {
+                    if (_wordlist.WordExists(part_that_overlaps))
+                    {
+                        return result;
+                    }
+                }
+                else
+                {
+                    return result;
+                }
+
+            }
+        }
+
+        return null;
+    }
+
+    public string[] GetPuzzleWords()
+    {
         while (_word_puzzle_count > 0)
         {
-            int random_index = Rnd.Next(0, _wordlist.WordCount());
-            string current_word = _wordlist.GetWordByIndex(random_index);
+            int random_index = _rnd.Next(0, _wordlist.WordCount());
 
-            bool found_overlap = false;
-            foreach (string new_word in _wordlist.AllWords())
-            {
-                if (WordLib.CountShortestOverlap(_min_overlap, _max_overlap, current_word, new_word) >= _min_overlap)
-                {
-                    found_overlap = true;
+            string random_word = _wordlist.GetWordByIndex(random_index);
 
-                    string part_that_overlaps = WordLib.ExtractShortestOverlappingPart(_min_overlap, current_word, new_word);
+            string? res = GetNext(random_word);
+            if (res == null) continue;
 
-                    if (_wordlist.WordInlist(part_that_overlaps))
-                    {
-                        overlapping_parts.Add(part_that_overlaps);
-                    }
-
-                    string_to_print += $"{current_word} - {new_word} -> ";
-                    string_to_print += $"{part_that_overlaps}\n";
-                    string_to_print += $"{part_that_overlaps.Length} bokstaver\n\n";
-                    _word_puzzle_count--;
-                    break;
-                }
-            }
-            if (!found_overlap) string_to_print += $"{current_word}\n<fant ikke match>\n\n";
+            _word_puzzles[_word_puzzle_count-1] = res;
+            _word_puzzle_count--;
         }
 
-        Console.WriteLine(string_to_print);
-
-        foreach (string part in overlapping_parts)
-        {
-            Console.WriteLine($"overlapping parts: {part}");
-        }
+        return _word_puzzles;
     }
 }
