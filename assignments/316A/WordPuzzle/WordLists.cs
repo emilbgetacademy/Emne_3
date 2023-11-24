@@ -14,7 +14,7 @@ class WordLists
 
         try
         {
-            // Ensure the zip file exists
+            // ensure the zip file exists
             if (!File.Exists(WordListZipFile))
             {
                 Console.WriteLine($"Zip file '{WordListZipFile}' not found");
@@ -38,7 +38,6 @@ class WordLists
                 using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                 {
                     // add words to list
-                    string word = "";
                     string last_word = "";
 
                     while (!reader.EndOfStream)
@@ -46,7 +45,7 @@ class WordLists
                         string? line = reader.ReadLine();
                         if (line == null) continue;
 
-                        word = line.Split('\t')[1];
+                        string  word = line.Split('\t')[1];
                         if (word == last_word)  continue;
                         if (word.Contains('-')) continue;
                         if (word.Contains(' ')) continue;

@@ -21,18 +21,23 @@ class WordLib
         int i = 0;
         while (i < length)
         {
+            // this avoids potential "System.IndexOutOfRangeException"..
             if (index_shift_right < 0) return false;
+
+            // characters do not match, no need to continue..
             if (last_word[i] != first_word[index_shift_right + i]) return false;
+
             i++;
         }
 
+        // both words satisfies the length of the overlap
         return true;
     }
 
     public static int CountLongestOverlap(int max, int min, string first_word, string last_word)
     {
         // returns the length of the longest overlap between two words
-        // if not overlap, return 0
+        // if no overlap, return 0
 
         // max = start from here, this is the longest overlap that we try to find first
         // min = end here, this is the shortest overlap evaulated if we cant find any larger overlap
@@ -49,7 +54,7 @@ class WordLib
     public static int CountShortestOverlap(int min, int max, string first_word, string last_word)
     {
         // returns the length of the shortest overlap between two words
-        // if not overlap, return 0
+        // if no overlap, return 0
 
         // min = start from here, this is the shortest overlap that we try to find first
         // max = end here, this is the longest overlap evaulated, if we cant find any shorter overlap
