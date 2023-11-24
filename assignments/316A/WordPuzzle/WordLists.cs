@@ -2,13 +2,13 @@ using System.IO.Compression;
 using System.Text;
 
 namespace WordPuzzle;
-class WordList
+class WordLists
 {
     private static readonly string WordListZipFile = "wordlists.zip";
 
     private readonly string[] _wordlist;
 
-    public WordList(string language)
+    public WordLists(string language)
     {
         var filename = language.ToLower() + ".txt";
         var wordlist = new List<string>();
@@ -52,6 +52,7 @@ class WordList
                         if (word.Length < 7)    continue;
                         if (word.Length > 10)   continue;
                         if (word.Contains('-')) continue;
+                        if (word.Contains(' ')) continue;
 
                         wordlist.Add(word);
                         last_word = word;
@@ -78,6 +79,7 @@ class WordList
     {
         return _wordlist.Length;
     }
+
     public string GetWordByIndex(int index)
     {
         return _wordlist[index];
@@ -86,5 +88,10 @@ class WordList
     public IEnumerable<string> AllWords()
     {
         foreach (string word in _wordlist) yield return word;
+    }
+
+    public bool WordInlist(string word)
+    {
+        return _wordlist.Contains(word);
     }
 }
