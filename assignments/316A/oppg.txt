@@ -24,12 +24,12 @@ Bruk en var
 .
 
 Ta bare med ord med lengde 7, 8, 9 eller 10.
-Ikke ta med ord som inneholder bindestrek.
+Ikke ta med ord som inneholder tegn som for eksempel bindestrek.
 
 3. Velg et tilfeldig ord fra lista.
-Se om det finnes et annet ord som begynner på de 3 samme bokstavene som det tilfeldige ordet slutter på.
-Hvis du finner en match, skriv ut begge ordene.
+Finnet et annet ord fra ordlisten som begynner på de samme bokstavene som det tilfeldige ordet slutter på.
+Sjekk først for 3 bokstaver, om det ikke finnes; prøv 4 og til slutt 5.
+Hvis du finner en match, finn et nytt tilfeldig ord..
 
-4. Endre programmet slik at det finner 200 slike ordgåter.
-Still som krav at også bokstavene som er felles er et ord som står oppført i ordlista.
-
+4. Finn 200 ord (ordgåter).
+De bokstavene som overlapper skal nå også være et gyldig ord fra ordlista.
