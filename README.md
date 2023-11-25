@@ -1,7 +1,6 @@
-# Emne 3 - GetAcademy
-* OOP developement with C#
+# .NET
 
-## Setup for Cross Platform .NET Developement
+## Cross Platform Developement
 * Note: If on Windows you have the option to use Visual Studio instead
 
 [Install .NET core](https://learn.microsoft.com/en-us/dotnet/core/install/)
@@ -13,7 +12,7 @@
 [Official .NET Documentation](https://learn.microsoft.com/en-us/dotnet/)
 
 
-## Guide .NET CLI Tool (dotnet)
+## .NET CLI Tool
 
 Create new console project
 * This example uses the project name HelloWorld, but you can use any name you want
@@ -38,13 +37,13 @@ dotnet build
 dotnet run
 ```
 
-## Opening a dotnet project
+## Opening a project
 Make sure to navigate to the directory containing the Program.cs file.
 Open the corresponding directory in your editor of choice
 ..the built-in dev-tools depend on it.
 
 
-## .NET Programming Conventions
+## Programming Conventions
 ```yaml
 class property private field:
     _name
@@ -57,4 +56,37 @@ Variable declaration when type can be implied on same line:
 Variable declaration when type can not be implied on same line:
     var aString = ReturnsSomething();
     int aNumber = ReturnsSomething();
+```
+
+
+## Containers (Docker)
+
+### Minimal Dockerfile for console app (Dockerfile must recide in the app directory for this example)
+Dockerfile
+* NOTE: change sdk version if needed
+```bash
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+WORKDIR /app
+COPY . ./
+ENTRYPOINT ["dotnet"]
+CMD ["run"]
+```
+
+Docker commands
+* MOTE: set a container-name, an image-name and an argument (argument can be omitted)
+```bash
+# build image
+docker build -t <imagename> .
+
+# run and remove container after exit
+docker run -t --rm <imagename> <argument>
+
+# run and keep container after exit
+docker run -t --name <containername> <imagename> <argument>
+
+# remove container
+docker rm <containername>
+
+# remove image
+docker rmi <imagename>
 ```
