@@ -3,11 +3,12 @@
 ### Using the Dockerfile (currently using sdk version 7 for all projects)
 
 ```bash
+# build the image
 docker build -t getacademydotnetprojects .
 
-# runs the HelloWorld project (specified in the Dockerfile)
-docker run -t --rm getacademydotnetprojects
+# run a project (example uses HelloWorld) from this directory
+docker run -it --rm getacademydotnetprojects HelloWorld
 
-# runs the project in the directory <YourProjectDirectory>
-docker run -t --rm getacademydotnetprojects <YourProjectDirectory>
+# run an interactive bash shell
+docker run -it --rm getacademydotnetprojects bash
 ```
