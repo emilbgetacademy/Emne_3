@@ -1,6 +1,7 @@
 # .NET
 
 ## Cross Platform Developement
+
 * Note: If on Windows you have the option to use Visual Studio instead
 
 [Install .NET core](https://learn.microsoft.com/en-us/dotnet/core/install/)
@@ -15,35 +16,54 @@
 ## .NET CLI Tool
 
 ### Create new console project
+
 * This example uses the project name HelloWorld, but you can use any name you want
+
+create a directory with name HelloWorld (will be the project name)
 ```bash
-# create a directory with name HelloWorld (will be the project name)
 mkdir HelloWorld
+```
 
-# cd into the project root directory
+cd into the project root directory
+```bash
 cd HelloWorld
+```
 
-# choose one of these to create a new project
-dotnet new console --framework net7.0 --use-program-main # standard
-dotnet new console --framework net7.0 # top level statement
+create a new project with top level statement
+```bash
+dotnet new console --framework net7.0
+```
 
-# add a gitignore file with standard dotnet ignores
+create a new project w/o top level statement (standard Main)
+```bash
+dotnet new console --framework net7.0 --use-program-main
+```
+
+add a gitignore file with standard dotnet ignores
+```bash
 dotnet new gitignore
+```
 
-# build the application
+build the application
+```bash
+
 dotnet build
+```
 
-# run the application (will automatically build first)
+run the application (will automatically build first)
+```bash
 dotnet run
 ```
 
-## Opening a project
+## Opening a project in your editor
+
 Make sure to navigate to the directory containing the Program.cs file.
-Open the corresponding directory in your editor of choice
-..the built-in dev-tools depend on it.
+Open this directory in your editor of choice
+The dev-tools in yor IDE depend on having the file and folder structure intact.
 
 
 ## Programming Conventions
+
 ```yaml
 class property private field:
     _propertyName
@@ -74,7 +94,6 @@ podman run -it --rm --mount type=bind,source="$(pwd)",target=/App emilbgetacadem
 Removing the image
 ```bash
 podman rmi emilbgetacademydotnetimage
-
 ```
 
 Dont want to build a local image, run a container from mcr.microsoft.com and cd into /App and navigate to our .NET apps
