@@ -46,48 +46,42 @@ Open the corresponding directory in your editor of choice
 ## Programming Conventions
 ```yaml
 class property private field:
-    _name
+    _propertyName
 class property public field:
-    Name
+    PropertyName
 
 Variable declaration when type can be implied on same line:
-    var aString = "hello";
-    var aNumber = 10;
+    var someString = "hello";
+    var someNumber = 10;
 Variable declaration when type can not be implied on same line:
-    var aString = ReturnsSomething();
-    int aNumber = ReturnsSomething();
+    string someString = ReturnsSomething();
+    int someNumber = ReturnsSomething();
 ```
 
 
-## Containers (Docker)
+## Containers (Podman)
 
-### Minimal Dockerfile for console app (Dockerfile must recide in the app directory for this example)
-Dockerfile
-* NOTE: change sdk version if needed
+Build an image with .NET sdk (run the command from this directory)
 ```bash
-FROM mcr.microsoft.com/dotnet/sdk:7.0
-WORKDIR /app
-COPY . ./
-ENTRYPOINT ["dotnet"]
-CMD ["run"]
+podman build -t emilbgetacademydotnetimage .
 ```
 
-Docker commands
-Run the commands from the same directory as this file
-Remember to set a container-name, an image-name and an argument (argument can be omitted)
+With the image built, we can start a container in any directory and then navigate to our .NET apps
 ```bash
-# build image
-docker build -t <imagename> .
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App emilbgetacademydotnetimage
+```
 
-# run and remove container after exit
-docker run -t --rm <imagename> <argument>
+Removing the image
+```bash
+podman rmi emilbgetacademydotnetimage
 
-# run and keep container after exit
-docker run -t --name <containername> <imagename> <argument>
+```
 
-# remove container
-docker rm <containername>
+Dont want to build a local image, run a container from mcr.microsoft.com and cd into /App and navigate to our .NET apps
+```bash
+# sdk version 7
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:7.0
 
-# remove image
-docker rmi <imagename>
+# sdk version 8
+podman run -it --rm --mount type=bind,source="$(pwd)",target=/App mcr.microsoft.com/dotnet/sdk:8.0
 ```
