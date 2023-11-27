@@ -14,7 +14,7 @@
 
 ## .NET CLI Tool
 
-Create new console project
+### Create new console project
 * This example uses the project name HelloWorld, but you can use any name you want
 ```bash
 # create a directory with name HelloWorld (will be the project name)
@@ -73,7 +73,8 @@ CMD ["run"]
 ```
 
 Docker commands
-* MOTE: set a container-name, an image-name and an argument (argument can be omitted)
+Run the commands from the same directory as this file
+Remember to set a container-name, an image-name and an argument (argument can be omitted)
 ```bash
 # build image
 docker build -t <imagename> .
