@@ -42,10 +42,10 @@ Console.WriteLine($"Du tippet {isBetCorrectText}");
 
 Oppgave:
 Skriv koden mer objektorientert.
-Innfør en klasse Match som representerer en fotballkamp.
+Innfør en klasse FotballMatch som representerer en fotballkamp.
     Hvilke felt (objektvariable) bør den ha?
 
-Skriv om koden over så den bruker klassen Match.
+Skriv om koden over så den bruker klassen FotballMatch.
     Mest mulig av logikken rundt en fotballkamp skal flyttes inn i klassen,
 
 Alt av Console.ReadLine() og Console.WriteLine() skal ligge i Program.cs.
