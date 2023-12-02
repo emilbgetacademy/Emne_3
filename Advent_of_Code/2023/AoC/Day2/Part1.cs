@@ -2,33 +2,26 @@ namespace AoC.Day2;
 
 class Part1
 {
-    private static Tuple<int, string, bool>[]? GameData;
-    private static bool print_this = false;
-    private static int print_this_at_iteration = 36;
     public static string Run(string[] puzzle_input)
     {
-        GameData = new Tuple<int, string, bool>[puzzle_input.Length];
-
+        var GameData = new Tuple<int, bool>[puzzle_input.Length];
         for (int i = 0; i < puzzle_input.Length; i++)
         {
-            print_this = (i == print_this_at_iteration);
-
-            // extract the game id for each line
-            string line = puzzle_input[i];
-
-            Tuple<int, string, bool> tuple = ExtractGameTuple(line);
-
-            // add the game id and false to the array before doing more stuff
-            GameData[i] = tuple;
-
-            if (print_this) Console.WriteLine($"|{tuple.Item1}|, |{tuple.Item2}, {tuple.Item3}|");
-           
+            GameData[i] = ExtractGameTuple(puzzle_input[i]);
         }
 
-        return String.Empty;
+        int result = 0;
+        foreach (var tuple in GameData)
+        {
+            int game_id = tuple.Item1;
+            bool game_is_possible = tuple.Item2;
+            if (game_is_possible) result += game_id;
+        }
+
+        return result.ToString();
     }
 
-    private static Tuple<int, string, bool> ExtractGameTuple(string line)
+    private static Tuple<int, bool> ExtractGameTuple(string line)
     {
         string[] colon_split = line.Split(":");
 
@@ -38,34 +31,30 @@ class Part1
 
         string game_record = colon_split[1];
 
-        bool is_possible = GameIsPossible(game_record);
+        bool game_possible = GameIsPossible(game_record);
 
-        return Tuple.Create(game_id, game_record, is_possible);
+        return Tuple.Create(game_id, game_possible);
     }
 
     private static bool GameIsPossible(string game_record)
     {
         foreach (string set in game_record.Split(";"))
         {
-            if (print_this) Console.Write("\n");
             foreach(string subset in set.Split(","))
             {
                 // remove leading and trailing whitespace
                 string trimmed_subset = subset.Trim();
 
-                string string_number = trimmed_subset.Split(" ")[0];
-                string color = trimmed_subset.Split(" ")[1];
-
-                bool is_numeric = int.TryParse(string_number, out int number);
+                bool is_numeric = int.TryParse(trimmed_subset.Split(" ")[0], out int cube_count);
                 if (!is_numeric) Environment.Exit(1);
 
-                if (print_this) Console.WriteLine($"{number} {color}");
-               
-                bool not_possible = color switch
+                string cube_color = trimmed_subset.Split(" ")[1];
+
+                bool not_possible = cube_color switch
                 {
-                    "red" => number > 12,
-                    "green" => number > 13,
-                    "blue" => number > 14,
+                    "red" => cube_count > 12,
+                    "green" => cube_count > 13,
+                    "blue" => cube_count > 14,
                     _ => false,
                 };
 
@@ -75,5 +64,4 @@ class Part1
 
         return true;
     }
-
 }
