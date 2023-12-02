@@ -4,43 +4,35 @@ class Part1
 {
     public static string Run(string[] puzzle_input)
     {
-        var GameData = new Tuple<int, bool>[puzzle_input.Length];
+        int result = 0;
         for (int i = 0; i < puzzle_input.Length; i++)
         {
-            GameData[i] = ExtractGameTuple(puzzle_input[i]);
-        }
-
-        int result = 0;
-        foreach (var tuple in GameData)
-        {
-            int game_id = tuple.Item1;
-            bool game_is_possible = tuple.Item2;
-            if (game_is_possible) result += game_id;
+            result += HandlePuzzleLine(puzzle_input[i]);
         }
 
         return result.ToString();
     }
 
-    private static Tuple<int, bool> ExtractGameTuple(string line)
+    private static int HandlePuzzleLine(string line)
     {
         string[] colon_split = line.Split(":");
+
+        string game_record = colon_split[1];
+
+        if (!GameIsPossible(game_record)) return 0;
 
         string string_game_id = colon_split[0].Split(" ")[1];
         bool game_id_extracted = int.TryParse(string_game_id, out int game_id);
         if (!game_id_extracted) Environment.Exit(1);
 
-        string game_record = colon_split[1];
-
-        bool game_possible = GameIsPossible(game_record);
-
-        return Tuple.Create(game_id, game_possible);
+        return game_id;
     }
 
     private static bool GameIsPossible(string game_record)
     {
         foreach (string set in game_record.Split(";"))
         {
-            foreach(string subset in set.Split(","))
+            foreach (string subset in set.Split(","))
             {
                 // remove leading and trailing whitespace
                 string trimmed_subset = subset.Trim();

@@ -28,7 +28,7 @@ class Part2
         int max_blue = 0;
         foreach (string set in game_record.Split(";"))
         {
-            foreach(string subset in set.Split(","))
+            foreach (string subset in set.Split(","))
             {
                 // remove leading and trailing whitespace
                 string trimmed_subset = subset.Trim();
