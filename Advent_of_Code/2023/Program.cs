@@ -4,14 +4,14 @@
 // Example for day 1 and part 2: dotnet run 1 2
 class Program
 {
-    private static readonly int _current_day = 3;
+    private static readonly int current_day = 3;
 
     static void Main(string[] args)
     {
         if (args.Length == 0)
         {
-            // run all days up to (and including) _current_day
-            for (int day = 1; day <= _current_day; day++)
+            // run all days up to (and including) current_day
+            for (int day = 1; day <= current_day; day++)
             {
                 for (int part = 1; part <= 2; part++)
                 {
@@ -32,13 +32,13 @@ class Program
         }
     }
 
-    private static void Puzzle(string _day, string _part)
+    private static void Puzzle(string day, string part)
     {
-        var puzzle_io = new AoC.PuzzleIO(_day, _part);
+        var puzzle_io = new AoC.PuzzleIO(day, part);
 
         string[] puzzle_input = puzzle_io.ReadInput();
 
-        string puzzle_output = (_day, _part) switch
+        string puzzle_output = (day, part) switch
         {
             ( "1", "1" ) => AoC.Day1.Part1.Run(puzzle_input),
             ( "1", "2" ) => AoC.Day1.Part2.Run(puzzle_input),
@@ -47,7 +47,7 @@ class Program
             ( "3", "1" ) => AoC.Day3.Part1.Run(puzzle_input),
             ( "3", "2" ) => AoC.Day3.Part2.Run(puzzle_input),
 
-            _ => $"Day {_day} and part {_part} is not yet implemented",
+            _ => $"Day {day} and part {part} is not yet implemented",
         };
 
         if (puzzle_output != String.Empty) puzzle_io.WriteOutput(puzzle_output);
