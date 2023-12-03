@@ -10,8 +10,8 @@ class Part1
         {
             string s = puzzle_input[line];
 
-            int? first_digit = CalibrationDocument.FirstDigitFromString(s);
-            int? last_digit = CalibrationDocument.LastDigitFromString(s);
+            int? first_digit = FirstDigitFromString(s);
+            int? last_digit = LastDigitFromString(s);
 
             if (first_digit == null || last_digit == null) Environment.Exit(1);
 
@@ -27,5 +27,35 @@ class Part1
         }
 
         return total.ToString();
+    }
+
+    private static int? FirstDigitFromString(string s)
+    {
+        for (int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if (char.IsNumber(c))
+            {
+                int digit = c - '0';
+                return digit;
+            }
+        }
+
+        return null;
+    }
+
+    private static int? LastDigitFromString(string s)
+    {
+        for (int i = s.Length-1; i >= 0; i--)
+        {
+            char c = s[i];
+            if (char.IsNumber(c))
+            {
+                int digit = c - '0';
+                return digit;
+            }
+        }
+
+        return null;
     }
 }
