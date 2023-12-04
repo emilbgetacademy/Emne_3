@@ -37,8 +37,8 @@ Lag så en klasse
     BoardModel
 med en array som inneholder ni objekter av Square.
 
-Endre så metoden Show i GameConsole, slik at den tar et objekt av Board som parameter og viser frem innholdet dynamisk.
-Altså samme brett som før, men "X" der riktig Square i Board sier player 1 og "O" der den sier player 2.
+Endre så metoden Show i GameConsole, slik at den tar et objekt av BoardModel som parameter og viser frem innholdet dynamisk.
+Altså samme brett som før, men "X" der riktig Square i BoardModel sier player 1 og "O" der den sier player 2.
 
 Koden i Main skal være slik
 ```c#
@@ -65,9 +65,8 @@ i
 slik at den setter en tilfeldig valgt rute til player 1 eller 2 (ut fra parameteren).
 
 ```c#
-
 Thread.Sleep(2000);
-board.MarkRandom(false);
+boardModel.MarkRandom(false);
 ```
 
 For å få til det lager du en propert
@@ -77,6 +76,7 @@ i klassen
 Med den kan du få et tilfeldig tall som er min. f.eks. 5 og maks. 15 slik:
     var randomNumber = _random.Next(5, 15);
 
+Mål:
 Gjør ferdig det som mangler.
 Programmet skal kun tillate å sette kryss i en tom rute.
 Programmet skal oppdage om noen har vunnet.

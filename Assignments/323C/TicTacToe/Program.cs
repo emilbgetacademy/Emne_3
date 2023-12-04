@@ -1,8 +1,7 @@
-﻿namespace TicTacToe;
-class Program
+using TicTacToe;
+
+bool play_again = true;
+while (play_again)
 {
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Hello, World!");
-    }
+    play_again = Game.Play();
 }
