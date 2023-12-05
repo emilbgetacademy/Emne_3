@@ -3,8 +3,7 @@ class Game
 {
     public static bool Play()
     {
-        GameConsole game_console = new GameConsole();
-        BoardModel board_model= new BoardModel();
+        BoardModel board_model = new();
 
         bool player_one = true;
         bool player_two = false;
@@ -16,7 +15,7 @@ class Game
 
         while (no_winner && squares_left)
         {
-            game_console.Show(board_model);
+            GameConsole.ShowBoard(board_model);
 
             if (player_ones_turn)
             {
@@ -40,7 +39,7 @@ class Game
                       : board_model.CheckWin(player_two) ? "Player Two"
                       : "No winners..";
 
-        game_console.Show(board_model);
+        GameConsole.ShowBoard(board_model);
 
         Console.WriteLine($"Winner: {winner}");
         Console.Write("Restart [y/N]: ");

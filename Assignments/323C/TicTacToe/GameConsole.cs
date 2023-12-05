@@ -1,12 +1,7 @@
 namespace TicTacToe;
 class GameConsole
 {
-    public GameConsole()
-    {
-        Console.WriteLine("Hello, World!");
-    }
-
-    public void Show(BoardModel board_model)
+    public static void ShowBoard(BoardModel board_model)
     {
         Console.Clear();
 
