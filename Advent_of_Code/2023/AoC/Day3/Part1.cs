@@ -3,16 +3,16 @@ namespace AoC.Day3;
 class Part1
 {
     private static string[]? _puzzle_input;
-    private static int _row_count = 0;
-    private static int _col_count = 0;
+    private static int _last_row = 0;
+    private static int _last_col = 0;
 
     public static string Run(string[] puzzle_input)
     {
         _puzzle_input = puzzle_input;
 
         // we treat the whole input as a matrix - each line is a row and each character is a column
-        _row_count = _puzzle_input.Length;
-        _col_count = _puzzle_input[0].Length; // each line has the exact same char count, we count first line
+        _last_row = _puzzle_input.Length - 1;
+        _last_col = _puzzle_input[0].Length - 1; // each line has the exact same char count, we count first line
 
         return HandlePuzzleInput();
     }
@@ -22,10 +22,10 @@ class Part1
         if (_puzzle_input == null) Environment.Exit(1);
 
         int total = 0;
-        for (int row = 0; row < _row_count; row++)
+        for (int row = 0; row <= _last_row; row++)
         {
             int col = 0;
-            while (col < _col_count)
+            while (col <= _last_col)
             {
                 int total_digits = 0;
                 int start_col = col;
@@ -34,7 +34,7 @@ class Part1
                 while (char.IsNumber(_puzzle_input[row][col]))
                 {
                     total_digits++;
-                    if (col + 1 == _col_count) break; // do not go to next col if this is the last col
+                    if (col == _last_col) break; // do not go to next col if this is the last col
                     col++;
                 }
 
@@ -53,62 +53,20 @@ class Part1
         return total.ToString();
     }
 
-    private static bool ValidPartNumber(int row, int start_col, int end_col)
+    private static bool ValidPartNumber(int current_row, int start_col, int end_col)
     {
         if (_puzzle_input == null) Environment.Exit(1);
-
-        // check above characters
-        if (row > 0)
+        
+        // check surrounding characters (up, down, left, right + diagonals)
+        for (int col = start_col - 1; col <= end_col + 1; col++)
         {
-            for (int col = start_col; col <= end_col; col++)
+            if (col < 0 || col > _last_col) continue;
+
+            for (int row = current_row - 1; row <= current_row + 1; row++)
             {
-                if (SymbolIsValid(_puzzle_input[row - 1][col])) return true;
+                if (row < 0 || row > _last_row) continue;
+                if (SymbolIsValid(_puzzle_input[row][col])) return true;
             }
-        }
-
-        // check below characters
-        if (row < _row_count - 1)
-        {
-            for (int col = start_col; col <= end_col; col++)
-            {
-                if (SymbolIsValid(_puzzle_input[row + 1][col])) return true;
-            }
-        }
-
-        // check left character
-        if (start_col > 0)
-        {
-            if (SymbolIsValid(_puzzle_input[row][start_col - 1])) return true;
-        }
-
-        // check right character
-        if (end_col < _col_count - 1)
-        {
-            if (SymbolIsValid(_puzzle_input[row][end_col + 1])) return true;
-        }
-
-        // check character above left
-        if (row > 0 && start_col > 0)
-        {
-            if (SymbolIsValid(_puzzle_input[row - 1][start_col - 1])) return true;
-        }
-
-        // check character above right
-        if (row > 0 && end_col < _col_count - 1)
-        {
-            if (SymbolIsValid(_puzzle_input[row - 1][end_col + 1])) return true;
-        }
-
-        // check character below left
-        if (row < _row_count - 1 && start_col > 0)
-        {
-            if (SymbolIsValid(_puzzle_input[row + 1][start_col - 1])) return true;
-        }
-
-        // check character below right
-        if (row < _row_count - 1 && end_col < _col_count - 1)
-        {
-            if (SymbolIsValid(_puzzle_input[row + 1][end_col + 1])) return true;
         }
 
         return false;
