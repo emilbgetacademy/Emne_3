@@ -42,10 +42,15 @@ class Program
         {
             ( "1", "1" ) => AoC.Day1.Part1.Run(puzzle_input),
             ( "1", "2" ) => AoC.Day1.Part2.Run(puzzle_input),
+
             ( "2", "1" ) => AoC.Day2.Part1.Run(puzzle_input),
             ( "2", "2" ) => AoC.Day2.Part2.Run(puzzle_input),
+
             ( "3", "1" ) => AoC.Day3.Part1.Run(puzzle_input),
             ( "3", "2" ) => AoC.Day3.Part2.Run(puzzle_input),
+
+            ( "4", "1" ) => AoC.Day4.Part1.Run(puzzle_input),
+            ( "4", "2" ) => AoC.Day4.Part2.Run(puzzle_input),
 
             _ => $"Day {day} and part {part} is not yet implemented",
         };
