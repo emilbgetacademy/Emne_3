@@ -1,61 +1,66 @@
+using System.ComponentModel;
+
 namespace AoC.Day4;
 
 class Part1
 {
-    private static int _card_number_count = 0;
-    private static int _winning_number_count = 0;
     public static string Run(string[] puzzle_input)
     {
-        Console.WriteLine("Running day 4 part 1");
-
-        _card_number_count = CalculateCardNumberCount(puzzle_input);
-        _winning_number_count = CalculateWinningNumberCount(puzzle_input);
-
-        Console.WriteLine($" should be 5 got {_card_number_count}");
-        Console.WriteLine($" should be 8 got {_winning_number_count}");
-
         int result = HandlePuzzleInput(puzzle_input);
-
         return result.ToString();
+    }
+
+    private static IEnumerable<int> IterStringNumbers(string str, char first_delimiter, char last_delimiter)
+    {
+        // iterating over all numbers from a string 
+        // ..which are delimited by whitespace
+        // ..and wrapped inside a first and last delimiter
+
+        bool yield_value = false;
+        int i = 0;
+        while (i < str.Length)
+        {
+            if (str[i] == first_delimiter) yield_value = true;
+            if (yield_value && str[i] == last_delimiter && last_delimiter != ' ') yield_value = false;
+
+            string number = "";
+            while (char.IsNumber(str[i]) && yield_value)
+            {
+                number += str[i].ToString();
+                i++;
+                if (i == str.Length) break;
+            }
+            if (number.Length > 0 && yield_value) yield return int.Parse(number);
+
+            i++;
+        }
     }
 
     private static int HandlePuzzleInput(string[] puzzle_input)
     {
-        // string card = String.Empty;
+        int total = 0;
+
         foreach (string line in puzzle_input)
         {
-            string card_numbers = String.Empty;
-            string winning_numbers = String.Empty;
+            // a binary doubles for each 0 added, lets take advantage of that
+            string binary = String.Empty;
+            bool awaiting_first = true;
 
-            string all_numbers = line.Split(":")[1];
+            foreach (int card_number in IterStringNumbers(line, ':', '|'))
+            {
+                foreach (int winning_number in IterStringNumbers(line, '|', ' '))
+                {
+                    if (card_number == winning_number)
+                    {
+                        binary += awaiting_first ? "1" : "0"; // first digit must be 1, though
+                        awaiting_first = false;
+                    }
+                }
 
-            card_numbers = all_numbers.Split("|")[0];
-            winning_numbers = all_numbers.Split("|")[1];
-            // Console.WriteLine(card_numbers);
-            // Console.WriteLine(winning_numbers);
-            // Console.WriteLine();
+            }
+            if (!awaiting_first) total += Convert.ToInt32(binary, 2);
         }
-        return 0;
-    }
 
-    private static int CalculateCardNumberCount(string[] puzzle_input)
-    {
-        // each card has a fixe amount of numbers, lets get that..
-        string first_line = puzzle_input[2];
-        string card_numbers = first_line.Split(":")[1].Split("|")[0].Trim();
-        return card_numbers.Split(" ").Length;
-    }
-    private static int CalculateWinningNumberCount(string[] puzzle_input)
-    {
-        // each card has a fixe amount of winning numbers, lets get that..
-        string first_line = puzzle_input[2];
-        string card_numbers = first_line.Split(":")[1].Split("|")[1].Trim();
-        // Console.WriteLine(first_line.Split(":")[1].Split("|")[1]);
-        // foreach (char l in card_numbers)
-        // {
-        //     Console.WriteLine(l);
-
-        // }
-        return card_numbers.Split(" ").Length;
+        return total;
     }
 }
