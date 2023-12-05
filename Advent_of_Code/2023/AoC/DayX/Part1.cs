@@ -2,7 +2,7 @@ namespace AoC.DayX;
 
 class Part1
 {
-    private static string[] _puzzle_input = Array.Empty<string>();
+    private static string[]? _puzzle_input;
 
     public static string Run(string[] puzzle_input)
     {

@@ -41,9 +41,8 @@ class Part1
                 // having any digits means we have a number, lets see if it is a valid part number before adding it
                 if (total_digits > 0)
                 {
-                    int end_col = start_col + total_digits - 1;
                     string number = _puzzle_input[row].Substring(start_col, total_digits);
-                    if (ValidPartNumber(row, start_col, end_col)) total += int.Parse(number);
+                    if (ValidPartNumber(row, start_col, start_col + total_digits)) total += int.Parse(number);
                 } 
 
                 col++;
@@ -53,26 +52,26 @@ class Part1
         return total.ToString();
     }
 
-    private static bool ValidPartNumber(int current_row, int start_col, int end_col)
+    private static bool ValidPartNumber(int current_row, int from_col, int to_col)
     {
         if (_puzzle_input == null) Environment.Exit(1);
-        
-        // check surrounding characters (up, down, left, right + diagonals)
-        for (int col = start_col - 1; col <= end_col + 1; col++)
-        {
-            if (col < 0 || col > _last_col) continue;
 
-            for (int row = current_row - 1; row <= current_row + 1; row++)
+        for (int row = current_row - 1; row <= current_row + 1; row++)
+        {
+            if (row < 0 || row > _last_row) continue;
+
+            for (int col = from_col - 1; col < to_col + 1; col++)
             {
-                if (row < 0 || row > _last_row) continue;
-                if (SymbolIsValid(_puzzle_input[row][col])) return true;
+                if (col < 0 || col > _last_col) continue;
+
+                if (IsValidPart(_puzzle_input[row][col])) return true;
             }
         }
 
         return false;
     }
 
-    private static bool SymbolIsValid(char c)
+    private static bool IsValidPart(char c)
     {
         if (c == '.') return false; // periods makes invalid
         if (char.IsNumber(c)) return false; // if by chance, there is a number adjacent; thats invalid too

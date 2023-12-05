@@ -1,4 +1,4 @@
-namespace AoC.DayX;
+namespace AoC.Day4;
 
 class Part2
 {
@@ -6,7 +6,7 @@ class Part2
 
     public static string Run(string[] puzzle_input)
     {
-        Console.WriteLine("Running day X part 2");
+        Console.WriteLine("Running day 4 part 2");
         _puzzle_input = puzzle_input;
 
         return String.Empty;
