@@ -59,22 +59,21 @@ class Part2
 
                 if (last_index > s.Length) continue;
 
-                if (s.Substring(i, spelled.Length) == spelled)
+                if (s.Substring(i, spelled.Length) != spelled) continue;
+                
+                return spelled switch
                 {
-                    return spelled switch
-                    {
-                        "one" => 1,
-                        "two" => 2,
-                        "three" => 3,
-                        "four" => 4,
-                        "five" => 5,
-                        "six" => 6,
-                        "seven" => 7,
-                        "eight" => 8,
-                        "nine" => 9,
-                        _ => null,
-                    };
-                }
+                    "one" => 1,
+                    "two" => 2,
+                    "three" => 3,
+                    "four" => 4,
+                    "five" => 5,
+                    "six" => 6,
+                    "seven" => 7,
+                    "eight" => 8,
+                    "nine" => 9,
+                    _ => null,
+                };
             }
         }
 
@@ -98,22 +97,21 @@ class Part2
 
                 if (first_index < 0) continue;
 
-                if (s.Substring(first_index, spelled.Length) == spelled)
+                if (s.Substring(first_index, spelled.Length) != spelled) continue;
+
+                return spelled switch
                 {
-                    return spelled switch
-                    {
-                        "one" => 1,
-                        "two" => 2,
-                        "three" => 3,
-                        "four" => 4,
-                        "five" => 5,
-                        "six" => 6,
-                        "seven" => 7,
-                        "eight" => 8,
-                        "nine" => 9,
-                        _ => null,
-                    };
-                }
+                    "one" => 1,
+                    "two" => 2,
+                    "three" => 3,
+                    "four" => 4,
+                    "five" => 5,
+                    "six" => 6,
+                    "seven" => 7,
+                    "eight" => 8,
+                    "nine" => 9,
+                    _ => null,
+                };
             }
         }
 
