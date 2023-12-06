@@ -13,14 +13,16 @@ class Part2
         return result.ToString();
     }
 
-    private static IEnumerable<int> IterStringNumbers(string str, char first_delimiter, char last_delimiter)
+    private static IEnumerable<int> IterIntegersFromString(string str, char f_delim, char l_delim)
     {
-        // iterating over all numbers from a string 
-        // ..which are delimited by whitespace
-        // ..and wrapped inside a first and last delimiter
+        // iterating over all whitepsace delimited numbers in a string
+        // will only include numbers found inside the first and last delimiter inside str
+        // for all numbers
+        //      set first delimitter -> f_delim = ' '
+        //      set last delimiter   -> l_delim = ' '
 
-        if (first_delimiter != ' ') str = str.Split(first_delimiter)[1];
-        if (last_delimiter != ' ') str = str.Split(last_delimiter)[0];
+        if (f_delim != ' ') str = str.Split(f_delim)[1];
+        if (l_delim != ' ') str = str.Split(l_delim)[0];
 
         int i = 0;
         while (i < str.Length)
@@ -45,33 +47,22 @@ class Part2
         int current_card_number = 0;
 
         int len_card_numbers = 0;
-        foreach (int _ in IterStringNumbers(puzzle_input[0], ':', '|' )) len_card_numbers++;
+        foreach (int _ in IterIntegersFromString(puzzle_input[0], ':', '|' )) len_card_numbers++;
 
         int len_winning_numbers = 0;
-        foreach (int n in IterStringNumbers(puzzle_input[0], '|', ' ' )) len_winning_numbers++;
+        foreach (int _ in IterIntegersFromString(puzzle_input[0], '|', ' ' )) len_winning_numbers++;
 
         foreach (string line in puzzle_input)
         {
-
+            // create a jagged array of the card numbers + the winning numbers
             int[][] numbers = new int[2][];
-            numbers[0] = new int[len_card_numbers];
-            numbers[1] = new int[len_winning_numbers];
-            
-            foreach (int n in IterStringNumbers(line, ' ', ':' )) current_card_number = n;
+            numbers[0]      = new int[len_card_numbers];
+            numbers[1]      = new int[len_winning_numbers];
 
-            int i = 0;
-            foreach (int number in IterStringNumbers(line, ':', '|' ))
-            {
-                numbers[0][i] = number;
-                i++;
-            }
+            current_card_number = IterIntegersFromString(line, ' ', ':' ).ToArray()[0];
+            numbers[0]          = IterIntegersFromString(line, ':', '|' ).ToArray();
+            numbers[1]          = IterIntegersFromString(line, '|', ' ' ).ToArray();
 
-            i = 0;
-            foreach (int number in IterStringNumbers(line, '|', ' ' ))
-            {
-                numbers[1][i] = number;
-                i++;
-            }
             game_cards.Add(current_card_number, numbers);
         }
 
@@ -82,32 +73,41 @@ class Part2
 
     private static int CalculateGameCards()
     {
+        // all game cards have at elast one copy (the original)
         int[] arr_copies = Enumerable.Repeat(1, _last_card_number).ToArray();
 
-        int total_gamecards = 0;
-        int copy_index = 0;
-        while (copy_index < arr_copies.Length)
+        int last_index = arr_copies.Length - 1;
+        int total_copies = 0;
+        int index = 0;
+        while (index <= last_index)
         {
-            int card_number = copy_index + 1; // card number is offset by +1
+            int card_number = index + 1; // card number is offset by +1
 
-            int copies = arr_copies[copy_index];
+            int copies = arr_copies[index];
 
             int matches = TotalMatches(card_number);
             while (copies > 0)
             {
-                int new_copies = matches;
-                while (new_copies > 0)
+                total_copies++;
+
+                int new_cards = matches;
+
+                // starting from the highest offset (the highest card number)
+                while (new_cards > 0)
                 {
-                    arr_copies[copy_index + new_copies]++;
-                    new_copies--;
+                    int offset_index = index + new_cards;
+
+                    // the offset for the new copies might go out of the scope of our card count
+                    if (offset_index <= last_index) arr_copies[offset_index]++;
+
+                    new_cards--;
                 }
-                total_gamecards++;
                 copies--;
             }
-            copy_index++;
+            index++;
         }
 
-        return total_gamecards;
+        return total_copies;
     }
 
     private static int TotalMatches(int card_number)
@@ -117,6 +117,7 @@ class Part2
         int[] card_numbers = _game_cards[card_number][0];
         int[] winning_numbers = _game_cards[card_number][1];
 
+        // using LINQ Intersect() to find intersection and get the sum of with Count()
         return card_numbers.Intersect(winning_numbers).Count();
     }
 }
