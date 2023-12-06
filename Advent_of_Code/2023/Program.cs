@@ -4,7 +4,7 @@
 // Example for day 1 and part 2: dotnet run 1 2
 class Program
 {
-    private static readonly int current_day = 4;
+    private static readonly int current_day = 5;
 
     static void Main(string[] args)
     {
@@ -51,6 +51,9 @@ class Program
 
             ( "4", "1" ) => AoC.Day4.Part1.Run(puzzle_input),
             ( "4", "2" ) => AoC.Day4.Part2.Run(puzzle_input),
+
+            ( "5", "1" ) => AoC.Day5.Part1.Run(puzzle_input),
+            ( "5", "2" ) => AoC.Day5.Part2.Run(puzzle_input),
 
             _ => $"Day {day} and part {part} is not yet implemented",
         };

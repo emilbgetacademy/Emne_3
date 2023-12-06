@@ -6,7 +6,7 @@ class Part2
     private static int _last_card_number = 0;
     public static string Run(string[] puzzle_input)
     {
-        _game_cards = PrepareGameCard(puzzle_input);
+        _game_cards = PrepareGameCards(puzzle_input);
 
         int result = CalculateGameCards();
 
@@ -38,7 +38,7 @@ class Part2
         }
     }
 
-    private static Dictionary<int, int[][]> PrepareGameCard(string[] puzzle_input)
+    private static Dictionary<int, int[][]> PrepareGameCards(string[] puzzle_input)
     {
         var game_cards = new Dictionary<int, int[][]>();
 
@@ -97,9 +97,8 @@ class Part2
                 int res = TotalMatches(card_number);
                 while (res > 0)
                 {
-                    int new_copy_index = copy_index + res;
+                    arr_copies[copy_index + res]++;
                     res--;
-                    arr_copies[new_copy_index]++;
                 }
                 total_gamecards++;
                 copies--;
@@ -122,10 +121,7 @@ class Part2
         {
             foreach (int w_number in winning_numbers)
             {
-                if (c_number == w_number)
-                {
-                    total++;
-                }
+                if (c_number == w_number) total++;
             }
         }
 
