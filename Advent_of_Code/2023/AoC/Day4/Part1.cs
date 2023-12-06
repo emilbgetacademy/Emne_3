@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace AoC.Day4;
 
 class Part1

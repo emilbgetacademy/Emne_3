@@ -4,7 +4,7 @@
 // Example for day 1 and part 2: dotnet run 1 2
 class Program
 {
-    private static readonly int current_day = 3;
+    private static readonly int current_day = 4;
 
     static void Main(string[] args)
     {
