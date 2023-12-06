@@ -117,15 +117,6 @@ class Part2
         int[] card_numbers = _game_cards[card_number][0];
         int[] winning_numbers = _game_cards[card_number][1];
 
-        int total = 0;
-        foreach (int c_number in card_numbers)
-        {
-            foreach (int w_number in winning_numbers)
-            {
-                if (c_number == w_number) total++;
-            }
-        }
-
-        return total;
+        return card_numbers.Intersect(winning_numbers).Count();
     }
 }
