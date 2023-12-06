@@ -92,13 +92,14 @@ class Part2
 
             int copies = arr_copies[copy_index];
 
+            int matches = TotalMatches(card_number);
             while (copies > 0)
             {
-                int res = TotalMatches(card_number);
-                while (res > 0)
+                int new_copies = matches;
+                while (new_copies > 0)
                 {
-                    arr_copies[copy_index + res]++;
-                    res--;
+                    arr_copies[copy_index + new_copies]++;
+                    new_copies--;
                 }
                 total_gamecards++;
                 copies--;
